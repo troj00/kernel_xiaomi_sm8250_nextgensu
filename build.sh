@@ -85,7 +85,7 @@ clang --version
 KSU_ZIP_STR=NoKernelSU
 if [ "$2" == "ksu" ]; then
     KSU_ENABLE=1
-    KSU_ZIP_STR=SukiSU-SUSFS
+    KSU_ZIP_STR=NextGenSU-SUSFS
 else
     KSU_ENABLE=0
 fi
@@ -95,7 +95,9 @@ echo "TARGET_DEVICE: $TARGET_DEVICE"
 
 if [ $KSU_ENABLE -eq 1 ]; then
     echo "KSU is enabled"
-    curl -LSs "https://raw.githubusercontent.com/ApartTUSITU/SukiSU-Ultra/main/kernel/setup.sh" | bash -s ApartTUSITU
+    curl -LSs "https://raw.githubusercontent.com/troj00/NextGenSU/main/kernel/setup.sh" | bash -s tmp-builtin
+    echo "Implement Baseband-guard"
+    wget -O- https://github.com/vc-teahouse/Baseband-guard/raw/main/setup.sh | bash
 else
     echo "KSU is disabled"
 fi
@@ -106,12 +108,12 @@ echo "Cleaning..."
 rm -rf out/
 rm -rf anykernel/
 
-echo "Clone AnyKernel3 for packing kernel (repo: https://github.com/liyafe1997/AnyKernel3)"
-git clone https://github.com/liyafe1997/AnyKernel3 -b kona --single-branch --depth=1 anykernel
+echo "Clone AnyKernel3 for packing kernel"
+git clone https://github.com/Nefarius80/AnyKernel3 -b kona --single-branch --depth=1 anykernel
 
 # Add date to local version
 local_version_str="-perf"
-local_version_date_str="-aptusitu-$(date +%Y%m%d)-${GIT_COMMIT_ID}-perf"
+local_version_date_str="-NextGenSU"
 
 sed -i "s/${local_version_str}/${local_version_date_str}/g" arch/arm64/configs/${TARGET_DEVICE}_defconfig
 
@@ -172,7 +174,7 @@ cp out/arch/arm64/boot/dtb anykernel/kernels/
 
 cd anykernel 
 
-ZIP_FILENAME=Kernel_AOSP_${TARGET_DEVICE}_${KSU_ZIP_STR}_$(date +'%Y%m%d_%H%M%S')_anykernel3_${GIT_COMMIT_ID}.zip
+ZIP_FILENAME=AOSP__${KSU_ZIP_STR}_${TARGET_DEVICE}_$(date +'%Y%m%d').zip
 
 zip -r9 $ZIP_FILENAME ./* -x .git .gitignore out/ ./*.zip
 
@@ -350,7 +352,7 @@ sed -i "s/${local_version_date_str}/${local_version_str}/g" arch/arm64/configs/$
 
 cd anykernel 
 
-ZIP_FILENAME=Kernel_MIUI_${TARGET_DEVICE}_${KSU_ZIP_STR}_$(date +'%Y%m%d_%H%M%S')_anykernel3_${GIT_COMMIT_ID}.zip
+ZIP_FILENAME=MIUI_${KSU_ZIP_STR}_${TARGET_DEVICE}_$(date +'%Y%m%d').zip
 
 zip -r9 $ZIP_FILENAME ./* -x .git .gitignore out/ ./*.zip
 
