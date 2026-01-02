@@ -51,7 +51,7 @@ jobs:
     - name: Установка зависимостей
       run: |
         sudo apt update
-        sudo apt install -y build-essential git curl wget bison flex zip bc cpio libssl-dev ccache python-is-python3 tar
+        sudo apt install -y libselinux-dev build-essential git curl wget bison flex zip bc cpio libssl-dev ccache python-is-python3 tar
 
     # Сгенерировать короткий хеш (исправить ошибку substr())
     - name: Set short commit SHA
