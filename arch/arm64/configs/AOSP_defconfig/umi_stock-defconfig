@@ -6342,4 +6342,5 @@ CONFIG_CORESIGHT_TGU=y
 
 CONFIG_BPF_LSM=y
 CONFIG_BPF_PRELOAD=y
-CONFIG_LSM="lockdown,yama,loadpin,safesetid,integrity,selinux,smack,tomoyo,apparmour,bpf"
+CONFIG_BBG=y
+CONFIG_LSM="lockdown,baseband_guard,yama,loadpin,safesetid,integrity,selinux,smack,tomoyo,apparmour,bpf"
