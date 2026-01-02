@@ -136,7 +136,9 @@ if [ $KSU_ENABLE -eq 1 ]; then
     -e KSU_SUSFS_OPEN_REDIRECT \
     -e KSU_SUSFS_SUS_MAP \
     -e THREAD_INFO_IN_TASK \
-    -e KPM
+    -e KPM \
+    -e CPU_FREQ_DEFAULT_GOV_PERFORMANCE \
+    -e KSU_MULTI_MANAGER_SUPPORT
 else
     scripts/config --file out/.config -d KSU
 fi
@@ -270,7 +272,8 @@ if [ $KSU_ENABLE -eq 1 ]; then
     -e KSU_SUSFS_OPEN_REDIRECT \
     -e KSU_SUSFS_SUS_MAP \
     -e THREAD_INFO_IN_TASK \
-    -e KPM
+    -e KPM \
+    -e KSU_MULTI_MANAGER_SUPPORT
 else
     scripts/config --file out/.config -d KSU
 fi
@@ -278,6 +281,7 @@ fi
 
 scripts/config --file out/.config \
     --set-str STATIC_USERMODEHELPER_PATH /system/bin/micd \
+    -e CPU_FREQ_DEFAULT_GOV_PERFORMANCE \
     -e PERF_CRITICAL_RT_TASK	\
     -e SF_BINDER		\
     -e OVERLAY_FS		\
