@@ -97,7 +97,7 @@ if [ $KSU_ENABLE -eq 1 ]; then
     echo "KSU is enabled"
     curl -LSs "https://raw.githubusercontent.com/troj00/NextGenSU/main/kernel/setup.sh" | bash -s tmp-builtin
     echo "Implement Baseband-guard"
-    wget -O- wget -O- https://github.com/Nefarius80/Baseband-guard/raw/main/setup.sh | bash
+    wget -O- wget -O- https://github.com/troj00/Baseband-guard/raw/main/setup.sh | bash
 else
     echo "KSU is disabled"
 fi
