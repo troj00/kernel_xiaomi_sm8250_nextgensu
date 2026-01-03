@@ -13,8 +13,8 @@ if [ -z "$1" ]; then
     echo "Error: No argument provided, please specific a target device." 
     echo "If you need NextGenSU, please add [nsu] as the second arg."
     echo "Examples:"
-    echo "Build for lmi(K30 Pro/POCO F2 Pro) without NextGenSU:"
-    echo "    bash build.sh lmi"
+    echo "Build for umi(Xiaomi Mi10) without NextGenSU:"
+    echo "    bash build_miui.sh umi"
     echo "Build for umi(Xiaomi Mi10) with NextGenSU:"
     echo "    bash build_miui.sh umi nsu"
     exit 1
