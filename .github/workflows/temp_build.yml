@@ -22,7 +22,7 @@ jobs:
         sudo apt update
         sudo apt install -y build-essential git curl wget bison flex zip bc cpio libssl-dev ccache python-is-python3 tar
 
-    - name: Получение короткого хеша SHA
+    - name: Установка короткого коммита SHA
       id: vars
       run: |
         echo "sha=$(echo $GITHUB_SHA | cut -c1-8)" >> $GITHUB_OUTPUT
@@ -33,7 +33,7 @@ jobs:
         path: ~/.cache/ccache_mikernel
         key: ${{ runner.os }}-ccache-${{ matrix.device }}-${{ matrix.device }} nsu-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-ccache-${{ matrix.device }} nsu
+          ${{ runner.os }}-ccache-${{ matrix.device }}-${{ matrix.device }} nsu-
           ${{ runner.os }}-ccache-${{ matrix.device }}-
           ${{ runner.os }}-ccache-
 
@@ -73,15 +73,16 @@ jobs:
     - name: Отображение структуры загруженных файлов
       run: ls -R
 
-    - name: Получить текущую дату
+    - name: Установка текущей даты и короткого коммита SHA
       id: vars
       run: |
+        echo "sha=$(echo $GITHUB_SHA | cut -c1-8)" >> $GITHUB_OUTPUT
         echo "date=$(date +'%d_%m_%Y')" >> $GITHUB_OUTPUT
 
     - name: Создать релиз на GitHub
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: build-${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha }}
+        tag_name: Сборка-${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha }}
         name: "Сборка от ${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha }}"
         body: "Автоматизированная сборка для коммита ${{ github.sha }}"
         files: ./release_zips/**/*.zip
