@@ -90,7 +90,7 @@ jobs:
     - name: Загрузка артефактов сборки
       uses: actions/upload-artifact@v4
       with:
-        name: kernels-${{ github.event.inputs.device }}${{ github.event.inputs.include_ksu == 'true' && '-ksu' || '' }}
+        name: aosp_miui-${{ github.event.inputs.device }}${{ github.event.inputs.include_ksu == 'true' && '-ksu' || '' }}
         path: |
           AOSP_*.zip
           MIUI_*.zip
