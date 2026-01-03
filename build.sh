@@ -176,7 +176,7 @@ cp out/arch/arm64/boot/dtb anykernel/kernels/
 
 cd anykernel 
 
-ZIP_FILENAME=AOSP__${KSU_ZIP_STR}_${TARGET_DEVICE}_$(date +'%Y%m%d').zip
+ZIP_FILENAME=AOSP_${KSU_ZIP_STR}_${TARGET_DEVICE}_$(date +'%Y%m%d').zip
 
 zip -r9 $ZIP_FILENAME ./* -x .git .gitignore out/ ./*.zip
 
