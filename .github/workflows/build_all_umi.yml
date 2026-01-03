@@ -82,8 +82,8 @@ jobs:
     - name: Создать релиз на GitHub
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: Сборка от ${{ steps.vars.outputs.date }}
-        name: "Сборка от ${{ steps.vars.outputs.date }}"
+        tag_name: build-${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha }}
+        name: "Сборка от ${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha }}"
         body: "Автоматизированная сборка ядра для коммита ${{ github.sha }}"
         files: ./release_zips/**/*.zip
       env:
