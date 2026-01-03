@@ -11,12 +11,12 @@ TARGET_DEVICE=$1
 
 if [ -z "$1" ]; then
     echo "Error: No argument provided, please specific a target device." 
-    echo "If you need KernelSU, please add [ksu] as the second arg."
+    echo "If you need NextGenSU, please add [nsu] as the second arg."
     echo "Examples:"
-    echo "Build for lmi(K30 Pro/POCO F2 Pro) without KernelSU:"
+    echo "Build for lmi(K30 Pro/POCO F2 Pro) without NextGenSU:"
     echo "    bash build.sh lmi"
     echo "Build for umi(Mi10) with KernelSU:"
-    echo "    bash build.sh umi ksu"
+    echo "    bash build.sh umi nsu"
     exit 1
 fi
 
@@ -82,24 +82,24 @@ clang --version
 
 
 
-KSU_ZIP_STR=NoKernelSU
-if [ "$2" == "ksu" ]; then
-    KSU_ENABLE=1
-    KSU_ZIP_STR=NextGenSU-SUSFS
+NSU_ZIP_STR=NoNextGenSU
+if [ "$2" == "nsu" ]; then
+    NSU_ENABLE=1
+    NSU_ZIP_STR=NextGenSU-SUSFS
 else
-    KSU_ENABLE=0
+    NSU_ENABLE=0
 fi
 
 
 echo "TARGET_DEVICE: $TARGET_DEVICE"
 
-if [ $KSU_ENABLE -eq 1 ]; then
-    echo "KSU is enabled"
+if [ $NSU_ENABLE -eq 1 ]; then
+    echo "NSU is enabled"
     curl -LSs "https://raw.githubusercontent.com/troj00/NextGenSU/main/kernel/setup.sh" | bash -s tmp-builtin
     echo "Implement Baseband-guard"
     wget -O- wget -O- https://github.com/troj00/Baseband-guard/raw/main/setup.sh | bash
 else
-    echo "KSU is disabled"
+    echo "NSU is disabled"
 fi
 
 
@@ -122,7 +122,7 @@ sed -i "s/${local_version_str}/${local_version_date_str}/g" arch/arm64/configs/$
 echo "Building for AOSP......"
 make $MAKE_ARGS ${TARGET_DEVICE}_defconfig
 
-if [ $KSU_ENABLE -eq 1 ]; then
+if [ $NSU_ENABLE -eq 1 ]; then
     scripts/config --file out/.config \
     -e KSU \
     -e KSU_SUSFS \
@@ -160,8 +160,8 @@ rm -rf anykernel/kernels/
 
 mkdir -p anykernel/kernels/
 
-# Patch for SukiSU KPM support. 
-if [ $KSU_ENABLE -eq 1 ]; then
+# Patch for NextGenSU KPM support. 
+if [ $NSU_ENABLE -eq 1 ]; then
     cd out/arch/arm64/boot/
     wget https://github.com/SukiSU-Ultra/SukiSU_KernelPatch_patch/releases/download/0.12.2/patch_linux
     chmod +x patch_linux
@@ -174,22 +174,23 @@ fi
 cp out/arch/arm64/boot/Image anykernel/kernels/
 cp out/arch/arm64/boot/dtb anykernel/kernels/
 
+echo "Build for AOSP finished."
+
+# Restore local version string
+sed -i "s/${local_version_date_str}/${local_version_str}/g" arch/arm64/configs/${TARGET_DEVICE}_defconfig
+
+# ------------- End of Building for AOSP -------------
+#  If you don't need AOSP you can comment out the above block [Building for AOSP]
+
 cd anykernel 
 
-ZIP_FILENAME=AOSP_${KSU_ZIP_STR}_${TARGET_DEVICE}_$(date +'%Y%m%d').zip
+ZIP_FILENAME=AOSP_${NSU_ZIP_STR}_${TARGET_DEVICE}_$(date +'%Y%m%d').zip
 
 zip -r9 $ZIP_FILENAME ./* -x .git .gitignore out/ ./*.zip
 
 mv $ZIP_FILENAME ../
 
 cd ..
-
-
-echo "Build for AOSP finished."
-
-# ------------- End of Building for AOSP -------------
-#  If you don't need AOSP you can comment out the above block [Building for AOSP]
-
 
 # ------------- Building for MIUI -------------
 
@@ -258,7 +259,7 @@ sed -i 's/\/\/39 01 00 00 11 00 03 51 03 FF/39 01 00 00 11 00 03 51 03 FF/g' ${d
 
 make $MAKE_ARGS ${TARGET_DEVICE}_defconfig
 
-if [ $KSU_ENABLE -eq 1 ]; then
+if [ $NSU_ENABLE -eq 1 ]; then
     scripts/config --file out/.config \
     -e KSU \
     -e KSU_SUSFS \
@@ -331,8 +332,8 @@ mv .dts.bak ${dts_source}
 rm -rf anykernel/kernels/
 mkdir -p anykernel/kernels/
 
-# Patch for SukiSU KPM support. 
-if [ $KSU_ENABLE -eq 1 ]; then
+# Patch for NextGenSU KPM support. 
+if [ $NSU_ENABLE -eq 1 ]; then
     cd out/arch/arm64/boot/
     wget https://github.com/SukiSU-Ultra/SukiSU_KernelPatch_patch/releases/download/0.12.2/patch_linux
     chmod +x patch_linux
@@ -356,7 +357,7 @@ sed -i "s/${local_version_date_str}/${local_version_str}/g" arch/arm64/configs/$
 
 cd anykernel 
 
-ZIP_FILENAME=MIUI_${KSU_ZIP_STR}_${TARGET_DEVICE}_$(date +'%Y%m%d').zip
+ZIP_FILENAME=MIUI_${NSU_ZIP_STR}_${TARGET_DEVICE}_$(date +'%Y%m%d').zip
 
 zip -r9 $ZIP_FILENAME ./* -x .git .gitignore out/ ./*.zip
 
