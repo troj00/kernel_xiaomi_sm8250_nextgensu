@@ -43,8 +43,8 @@ jobs:
       with:
         name: zips-${{ matrix.device }}
         path: |
-          MIUI_*.zip
-          AOSP_*.zip
+          MIUI*.zip
+          AOSP*.zip
 
   release:
     runs-on: ubuntu-22.04
