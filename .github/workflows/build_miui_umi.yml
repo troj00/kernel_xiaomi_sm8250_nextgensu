@@ -1,4 +1,4 @@
-name: Сборка MIUI ядрa для Xiaomi 10
+name: Сборка MIUI ядер
 
 on:
   workflow_dispatch:
