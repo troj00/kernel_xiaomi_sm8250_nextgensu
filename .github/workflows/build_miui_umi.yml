@@ -1,4 +1,4 @@
-name: Сборка AOSP & MIUI ядeр Xiaomi 10
+name: Сборка MIUI ядрa для Xiaomi 10
 
 on:
   workflow_dispatch:
@@ -79,9 +79,9 @@ jobs:
     - name: Сборка ядра
       run: |
         if [ "${{ github.event.inputs.include_ksu }}" = "true" ]; then
-          bash build.sh ${{ github.event.inputs.device }} ksu
+          bash build_miui.sh ${{ github.event.inputs.device }} ksu
         else
-          bash build.sh ${{ github.event.inputs.device }}
+          bash build_miui.sh ${{ github.event.inputs.device }}
         fi
 
     - name: Показать статистику кэширования
@@ -90,7 +90,6 @@ jobs:
     - name: Загрузка артефактов сборки
       uses: actions/upload-artifact@v4
       with:
-        name: kernels-${{ github.event.inputs.device }}${{ github.event.inputs.include_ksu == 'true' && '-ksu' || '' }}
+        name: miui-${{ github.event.inputs.device }}${{ github.event.inputs.include_ksu == 'true' && '-ksu' || '' }}
         path: |
-          AOSP_*.zip
           MIUI_*.zip
