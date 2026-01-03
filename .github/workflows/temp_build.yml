@@ -77,12 +77,11 @@ jobs:
       id: vars
       run: |
         echo "date=$(date +'%d_%m_%Y')" >> $GITHUB_OUTPUT
-#        echo "sha=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_OUTPUT
 
     - name: Создать релиз на GitHub
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: Сборка-${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha }}
+        tag_name: build-${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha }}
         name: "Сборка от ${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha }}"
         body: "Автоматизированная сборка для коммита ${{ github.sha }}"
         files: ./release_zips/**/*.zip
