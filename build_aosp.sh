@@ -119,7 +119,7 @@ sed -i "s/${local_version_str}/${local_version_date_str}/g" arch/arm64/configs/$
 
 # ------------- Building for AOSP -------------
 
-echo "Building for AOSP......"
+echo "Building for AOSP..."
 make $MAKE_ARGS ${TARGET_DEVICE}_defconfig
 
 if [ $NSU_ENABLE -eq 1 ]; then
@@ -160,7 +160,7 @@ rm -rf anykernel/kernels/
 
 mkdir -p anykernel/kernels/
 
-# Patch for SukiSU KPM support. 
+# Patch for NextGenSU KPM support. 
 if [ $NSU_ENABLE -eq 1 ]; then
     cd out/arch/arm64/boot/
     wget https://github.com/SukiSU-Ultra/SukiSU_KernelPatch_patch/releases/download/0.12.2/patch_linux
