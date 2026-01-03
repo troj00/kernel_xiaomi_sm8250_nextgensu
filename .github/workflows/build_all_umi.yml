@@ -33,7 +33,7 @@ jobs:
     - name: Получение даты и короткого хеша SHA
       id: vars
       run: |
-        echo "date=$(date +'%d_%m_%Y')" >> $GITHUB_OUTPUT
+        echo "date=$(date +'%d%m%Y')" >> $GITHUB_OUTPUT
         echo "sha=$(echo $GITHUB_SHA | cut -c1-8)" >> $GITHUB_OUTPUT
 
     - name: Настройка Cache (ccache)
@@ -74,17 +74,23 @@ jobs:
     runs-on: ubuntu-22.04
     needs: build
     steps:
-    - name: Скачать все артефакты
+    - name: Download all artifacts
       uses: actions/download-artifact@v4
       with:
         path: ./release_zips
 
-    - name: Создать релиз на GitHub
+    - name: Get date and short SHA
+      id: vars
+      run: |
+        echo "date=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
+        echo "sha=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_OUTPUT
+
+    - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
         tag_name: build-${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha }}
-        name: "Сборка от ${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha }}"
-        body: "Автоматизированная сборка ядра для коммита ${{ github.sha }}"
+        name: "Kernel Build ${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha }}"
+        body: "Automated kernel build for commit ${{ github.sha }}"
         files: ./release_zips/**/*.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
