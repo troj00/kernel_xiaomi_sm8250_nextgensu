@@ -77,7 +77,7 @@ jobs:
       with:
         path: ./release_zips
 
-    - name: Получение даты и короткого хеша SHA
+    - name: Получение даты
       id: vars
       run: |
         echo "date=$(date +'%d_%m_%Y')" >> $GITHUB_OUTPUT
