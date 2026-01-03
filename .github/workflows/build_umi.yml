@@ -1,4 +1,4 @@
-name: Сборка ядра
+name: Сборка AOSP & MIUI ядeр Xiaomi 10
 
 on:
   workflow_dispatch:
