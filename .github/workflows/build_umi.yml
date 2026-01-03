@@ -43,9 +43,9 @@ jobs:
       with:
         name: zips-${{ matrix.device }}
         path: |
-          MIUI*.zip
-          AOSP*.zip
-
+          AOSP_*.zip
+          MIUI_*.zip
+          
   release:
     runs-on: ubuntu-22.04
     needs: build
