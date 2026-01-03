@@ -13,8 +13,8 @@ if [ -z "$1" ]; then
     echo "Error: No argument provided, please specific a target device." 
     echo "If you need NextGenSU, please add [nsu] as the second arg."
     echo "Examples:"
-    echo "Build for lmi(K30 Pro/POCO F2 Pro) without NextGenSU:"
-    echo "    bash build_aosp.sh lmi"
+    echo "Build for umi(Xiaomi Mi10) without NextGenSU:"
+    echo "    bash build_aosp.sh umi"
     echo "Build for umi(Xiaomi Mi10) with NextGenSU:"
     echo "    bash build_aosp.sh umi nsu"
     exit 1
@@ -115,6 +115,7 @@ git clone https://github.com/Nefarius80/AnyKernel3 -b kona --single-branch --dep
 local_version_str="-perf"
 local_version_date_str="-NextGenSU"
 
+# Restore local version string
 sed -i "s/${local_version_str}/${local_version_date_str}/g" arch/arm64/configs/${TARGET_DEVICE}_defconfig
 
 # ------------- Building for AOSP -------------
