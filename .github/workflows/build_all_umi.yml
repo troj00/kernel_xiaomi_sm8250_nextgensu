@@ -30,13 +30,13 @@ jobs:
         tar -zxvf Clang-15.0.7-20251111.tar.gz
         cd $GITHUB_WORKSPACE
 
-    - name: Build kernel for ${{ matrix.device }} (No KSU)
+    - name: Build kernel for ${{ matrix.device }} (No NSU)
       run: |
         bash build.sh ${{ matrix.device }}
 
-    - name: Build kernel for ${{ matrix.device }} (With KSU)
+    - name: Build kernel for ${{ matrix.device }} (With NSU)
       run: |
-        bash build.sh ${{ matrix.device }} ksu
+        bash build.sh ${{ matrix.device }} nsu
 
     - name: Upload zips for ${{ matrix.device }}
       uses: actions/upload-artifact@v4
