@@ -100,6 +100,8 @@ if [ $NSU_ENABLE -eq 1 ]; then
     wget -O- wget -O- https://github.com/troj00/Baseband-guard/raw/main/setup.sh | bash
 else
     echo "NSU is disabled"
+    echo "Implement Baseband-guard"
+    wget -O- wget -O- https://github.com/troj00/Baseband-guard/raw/main/setup.sh | bash
 fi
 
 
