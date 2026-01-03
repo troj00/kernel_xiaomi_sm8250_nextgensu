@@ -33,13 +33,13 @@ jobs:
     # Сгенерировать короткий хеш (исправить ошибку substr())
     - name: Установка короткого хеша SHA
       id: vars
-      run: echo "SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_ENV
+      run: echo "SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
       
     - name: Настройка Cache (ccache)
       uses: actions/cache@v4
       with:
         path: ~/.cache/ccache_mikernel
-        key: ${{ runner.os }}-ccache-${{ matrix.device }}-${{ env.SHORT_SHA }}
+        key: ${{ runner.os }}-ccache-${{ matrix.device }}-${{ SHORT_SHA }}
         restore-keys: |
           ${{ runner.os }}-ccache-${{ matrix.device }}-
           ${{ runner.os }}-ccache-
@@ -81,16 +81,13 @@ jobs:
       id: vars
       run: |
         echo "date=$(date +'%d_%m_%Y')" >> $GITHUB_OUTPUT
-
-    - name: Отображение структуры загруженных файлов
-        run: ls -R
     
     - name: Создать релиз на GitHub
       uses: softprops/action-gh-release@v2
       with:
         tag_name: Сборка от ${{ steps.vars.outputs.date }}
         name: "Сборка от ${{ steps.vars.outputs.date }}"
-        body: "Автоматизированная сборка ядра для коммита ${{ env.SHORT_SHA }}
+        body: "Автоматизированная сборка ядра для коммита ${{ SHORT_SHA }}
         files: ./release_zips/**/*.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
