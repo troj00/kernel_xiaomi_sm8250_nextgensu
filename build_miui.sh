@@ -257,7 +257,7 @@ mv .dts.bak ${dts_source}
 rm -rf anykernel/kernels/
 mkdir -p anykernel/kernels/
 
-# Patch for SukiSU KPM support. 
+# Patch for NextGenSU KPM support. 
 if [ $NSU_ENABLE -eq 1 ]; then
     cd out/arch/arm64/boot/
     wget https://github.com/SukiSU-Ultra/SukiSU_KernelPatch_patch/releases/download/0.12.2/patch_linux
