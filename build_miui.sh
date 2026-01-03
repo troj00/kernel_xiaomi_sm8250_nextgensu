@@ -115,6 +115,8 @@ git clone https://github.com/Nefarius80/AnyKernel3 -b kona --single-branch --dep
 local_version_str="-perf"
 local_version_date_str="-NextGenSU"
 
+
+# Restore local version string
 sed -i "s/${local_version_str}/${local_version_date_str}/g" arch/arm64/configs/${TARGET_DEVICE}_defconfig
 
 # ------------- Building for MIUI -------------
