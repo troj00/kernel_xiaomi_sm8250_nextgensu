@@ -71,7 +71,7 @@ jobs:
         path: ./release_zips
 
     - name: Отображение структуры загруженных файлов
-        run: ls -R
+      run: ls -R
 
     - name: Получить текущую дату
       id: vars
