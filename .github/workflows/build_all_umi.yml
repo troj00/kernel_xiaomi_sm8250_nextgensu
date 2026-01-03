@@ -12,17 +12,35 @@ jobs:
         device: [umi]
 
     steps:
-    - name: Checkout source
+    - name: Проверка исходников
       uses: actions/checkout@v5
       with:
         fetch-depth: 1
 
-    - name: Install dependencies
+    - name: Очистка диска
+      # Компиляция ядра не требует много места, но для большей безопасности рекомендуется удалить часть предустановленного программного обеспечения
+      run: |
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /opt/ghc
+        sudo rm -rf "/usr/local/share/boost"
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+
+    - name: Установка зависимостей
       run: |
         sudo apt update
         sudo apt install -y build-essential git curl wget bison flex zip bc cpio libssl-dev ccache python-is-python3 tar
 
-    - name: Setup zyc-clang toolchain
+    - name: Настройка Cache (ccache)
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ccache_mikernel
+        key: ${{ runner.os }}-ccache-${{ matrix.device }}-${{ env.SHORT_SHA }}
+        restore-keys: |
+          ${{ runner.os }}-ccache-${{ matrix.device }}-
+          ${{ runner.os }}-ccache-${{ matrix.device }}-
+          ${{ runner.os }}-ccache-
+
+    - name: Установка Toolchain (ZyC-Clang 15)
       run: |
         mkdir -p $HOME/zyc-clang
         cd $HOME/zyc-clang
@@ -30,18 +48,18 @@ jobs:
         tar -zxvf Clang-15.0.7-20251111.tar.gz
         cd $GITHUB_WORKSPACE
 
-    - name: Build kernel for ${{ matrix.device }} (No NSU)
+    - name: Сборка ядра для ${{ matrix.device }} (без NSU)
       run: |
         bash build.sh ${{ matrix.device }}
 
-    - name: Build kernel for ${{ matrix.device }} (With NSU)
+    - name: Сборка ядра для ${{ matrix.device }} (c NSU)
       run: |
         bash build.sh ${{ matrix.device }} nsu
 
-    - name: Upload zips for ${{ matrix.device }}
+    - name: Выгрузка архивов для ${{ matrix.device }}
       uses: actions/upload-artifact@v4
       with:
-        name: zips-${{ matrix.device }}
+        name: aosp_miui-${{ matrix.device }}
         path: |
           AOSP_*.zip
           MIUI_*.zip
@@ -50,23 +68,23 @@ jobs:
     runs-on: ubuntu-22.04
     needs: build
     steps:
-    - name: Download all artifacts
+    - name: Скачать все артефакты
       uses: actions/download-artifact@v4
       with:
         path: ./release_zips
 
-    - name: Get date and short SHA
+    - name: Получение даты и короткого хеша SHA
       id: vars
       run: |
         echo "date=$(date +'%d%m%Y')" >> $GITHUB_OUTPUT
         echo "sha=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_OUTPUT
 
-    - name: Create GitHub Release
+    - name: Создать релиз на GitHub
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: build-${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha }}
+        tag_name: Сборка от ${{ steps.vars.outputs.date }}
         name: "Сборка от ${{ steps.vars.outputs.date }}"
-        body: "Automated kernel build for commit ${{ github.sha }}"
+        body: "Автоматизированная сборка ядра для коммита ${{ github.sha }}"
         files: ./release_zips/**/*.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
