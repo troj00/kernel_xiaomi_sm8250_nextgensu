@@ -65,7 +65,7 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         tag_name: build-${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha }}
-        name: "Kernel Build ${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha }}"
+        name: "Сборка от ${{ steps.vars.outputs.date }}"
         body: "Automated kernel build for commit ${{ github.sha }}"
         files: ./release_zips/**/*.zip
       env:
