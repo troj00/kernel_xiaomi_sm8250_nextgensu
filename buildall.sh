@@ -15,16 +15,16 @@ bash build.sh enuma
 bash build.sh dagu
 bash build.sh pipa
 
-bash build.sh psyche ksu
-bash build.sh thyme ksu
-bash build.sh umi ksu
-bash build.sh munch ksu
-bash build.sh lmi ksu
-bash build.sh cmi ksu
-bash build.sh cas ksu
-bash build.sh apollo ksu
-bash build.sh alioth ksu
-bash build.sh elish ksu
-bash build.sh enuma ksu
-bash build.sh dagu ksu
-bash build.sh pipa ksu
+bash build.sh psyche nsu
+bash build.sh thyme nsu
+bash build.sh umi nsu
+bash build.sh munch nsu
+bash build.sh lmi nsu
+bash build.sh cmi nsu
+bash build.sh cas nsu
+bash build.sh apollo nsu
+bash build.sh alioth nsu
+bash build.sh elish nsu
+bash build.sh enuma nsu
+bash build.sh dagu nsu
+bash build.sh pipa nsu
