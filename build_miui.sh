@@ -284,7 +284,7 @@ sed -i "s/${local_version_date_str}/${local_version_str}/g" arch/arm64/configs/$
 
 cd anykernel 
 
-ZIP_FILENAME=MIUI_${NSU_ZIP_STR}_${TARGET_DEVICE}_$(date +'%Y%m%d').zip
+ZIP_FILENAME=MIUI_${NSU_ZIP_STR}_${TARGET_DEVICE}_$(date +'%d%m%Y').zip
 
 zip -r9 $ZIP_FILENAME ./* -x .git .gitignore out/ ./*.zip
 
