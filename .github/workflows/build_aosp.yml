@@ -21,7 +21,7 @@ on:
           - enuma
           - dagu
           - pipa
-      include_ksu:
+      include_nsu:
         description: 'Включить SU (NextGenSU & SUSFS) в сборку'
         required: true
         default: 'true'
@@ -62,9 +62,9 @@ jobs:
       uses: actions/cache@v4
       with:
         path: ~/.cache/ccache_mikernel
-        key: ${{ runner.os }}-ccache-${{ github.event.inputs.device }}-${{ github.event.inputs.include_ksu }}-${{ env.SHORT_SHA }}
+        key: ${{ runner.os }}-ccache-${{ github.event.inputs.device }}-${{ github.event.inputs.include_nsu }}-${{ env.SHORT_SHA }}
         restore-keys: |
-          ${{ runner.os }}-ccache-${{ github.event.inputs.device }}-${{ github.event.inputs.include_ksu }}-
+          ${{ runner.os }}-ccache-${{ github.event.inputs.device }}-${{ github.event.inputs.include_nsu }}-
           ${{ runner.os }}-ccache-${{ github.event.inputs.device }}-
           ${{ runner.os }}-ccache-
 
@@ -78,10 +78,10 @@ jobs:
 
     - name: Сборка ядра
       run: |
-        if [ "${{ github.event.inputs.include_ksu }}" = "true" ]; then
-          bash build_miui.sh ${{ github.event.inputs.device }} ksu
+        if [ "${{ github.event.inputs.include_nsu }}" = "true" ]; then
+          bash build_aosp.sh ${{ github.event.inputs.device }} nsu
         else
-          bash build_miui.sh ${{ github.event.inputs.device }}
+          bash build_aosp.sh ${{ github.event.inputs.device }}
         fi
 
     - name: Показать статистику кэширования
@@ -90,6 +90,6 @@ jobs:
     - name: Загрузка артефактов сборки
       uses: actions/upload-artifact@v4
       with:
-        name: aosp-${{ github.event.inputs.device }}${{ github.event.inputs.include_ksu == 'true' && '-ksu' || '' }}
+        name: aosp-${{ github.event.inputs.device }}${{ github.event.inputs.include_nsu == 'true' && '-nsu' || '' }}
         path: |
           AOSP_*.zip
