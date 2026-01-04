@@ -15,7 +15,7 @@ if [ -z "$1" ]; then
     echo "Examples:"
     echo "Build for umi(Xiaomi Mi10) without NextGenSU:"
     echo "    bash build.sh umi"
-    echo "Build for umi(Xiaomi Mi10) with KernelSU:"
+    echo "Build for umi(Xiaomi Mi10) with NextGenSU:"
     echo "    bash build.sh umi nsu"
     exit 1
 fi
