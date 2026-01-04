@@ -36,7 +36,7 @@ jobs:
 
     steps:
     - name: Проверка исходников
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         fetch-depth: 1
 
@@ -59,7 +59,7 @@ jobs:
       run: echo "SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_ENV
 
     - name: Настройка Cache (ccache)
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ~/.cache/ccache_mikernel
         key: ${{ runner.os }}-ccache-${{ github.event.inputs.device }}-${{ github.event.inputs.include_nsu }}-${{ env.SHORT_SHA }}
@@ -79,8 +79,10 @@ jobs:
     - name: Сборка ядра
       run: |
         if [ "${{ github.event.inputs.include_nsu }}" = "true" ]; then
+          echo "Сборка c NextGenSU..."
           bash build.sh ${{ github.event.inputs.device }} nsu
         else
+          echo "Сборка без NextGenSU..."
           bash build.sh ${{ github.event.inputs.device }}
         fi
 
@@ -88,7 +90,7 @@ jobs:
       run: ccache -s
 
     - name: Загрузка артефактов сборки
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: aosp_miui-${{ github.event.inputs.device }}${{ github.event.inputs.include_nsu == 'true' && '-nsu' || '' }}
         path: |
