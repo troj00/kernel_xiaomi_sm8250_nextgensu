@@ -8,7 +8,7 @@ updates:
   - package-ecosystem: "github-actions"
     labels: []
     directory: "/"
-    target-branch: "main"
+    target-branch: "android16-nextgen"
     schedule:
       interval: "daily"
       timezone: "Europe/Kyiv"
