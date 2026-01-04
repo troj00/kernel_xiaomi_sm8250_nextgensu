@@ -82,10 +82,10 @@ clang --version
 
 
 
-NSU_ZIP_STR=NoNextGenSU
+NSU_ZIP_STR=_
 if [ "$2" == "nsu" ]; then
     NSU_ENABLE=1
-    NSU_ZIP_STR=NextGenSU-SUSFS
+    NSU_ZIP_STR=_NextGenSU-SUSFS_
 else
     NSU_ENABLE=0
 fi
@@ -97,11 +97,11 @@ if [ $NSU_ENABLE -eq 1 ]; then
     echo "NSU is enabled"
     curl -LSs "https://raw.githubusercontent.com/troj00/NextGenSU/main/kernel/setup.sh" | bash -s tmp-builtin
     echo "Implement Baseband-guard"
-    wget -O- wget -O- https://github.com/troj00/Baseband-guard/raw/main/setup.sh | bash
+    wget -O- https://github.com/troj00/Baseband-guard/raw/main/setup.sh | bash
 else
     echo "NSU is disabled"
     echo "Implement Baseband-guard"
-    wget -O- wget -O- https://github.com/troj00/Baseband-guard/raw/main/setup.sh | bash
+    wget -O- https://github.com/troj00/Baseband-guard/raw/main/setup.sh | bash
 fi
 
 
@@ -187,7 +187,7 @@ sed -i "s/${local_version_date_str}/${local_version_str}/g" arch/arm64/configs/$
 
 cd anykernel 
 
-ZIP_FILENAME=AOSP_${NSU_ZIP_STR}_${TARGET_DEVICE}_$(date +'%d_%m_%Y').zip
+ZIP_FILENAME=AOSP${NSU_ZIP_STR}${TARGET_DEVICE}_$(date +'%d_%m_%Y').zip
 
 zip -r9 $ZIP_FILENAME ./* -x .git .gitignore out/ ./*.zip
 
@@ -360,7 +360,7 @@ sed -i "s/${local_version_date_str}/${local_version_str}/g" arch/arm64/configs/$
 
 cd anykernel 
 
-ZIP_FILENAME=MIUI_${NSU_ZIP_STR}_${TARGET_DEVICE}_$(date +'%d_%m_%Y').zip
+ZIP_FILENAME=MIUI${NSU_ZIP_STR}${TARGET_DEVICE}_$(date +'%d_%m_%Y').zip
 
 zip -r9 $ZIP_FILENAME ./* -x .git .gitignore out/ ./*.zip
 
