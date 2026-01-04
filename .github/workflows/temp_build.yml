@@ -54,7 +54,7 @@ jobs:
         bash build.sh ${{ matrix.device }} nsu
 
     - name: Загрузить ZIP для ${{ matrix.device }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: zips-${{ matrix.device }}
         path: |
