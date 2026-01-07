@@ -95,13 +95,13 @@ echo "TARGET_DEVICE: $TARGET_DEVICE"
 
 if [ $NSU_ENABLE -eq 1 ]; then
     echo "NSU is enabled"
-    curl -LSs "https://raw.githubusercontent.com/troj00/NextGenSU/main/kernel/setup.sh" | bash -s tmp-builtin
+    curl -LSs "https://raw.githubusercontent.com/troj00/NextGenSU/nextgen/kernel/setup.sh" | bash -s tmp-builtin-nextgen
     echo "Implement Baseband-guard"
-    wget -O- https://github.com/troj00/Baseband-guard/raw/main/setup.sh | bash
+    wget -O- https://github.com/vc-teahouse/Baseband-guard/raw/main/setup.sh | bash
 else
     echo "NSU is disabled"
     echo "Implement Baseband-guard"
-    wget -O- https://github.com/troj00/Baseband-guard/raw/main/setup.sh | bash
+    wget -O- https://github.com/vc-teahouse/Baseband-guard/raw/main/setup.sh | bash
 fi
 
 
@@ -264,7 +264,7 @@ mkdir -p anykernel/kernels/
 # Patch for NextGenSU KPM support. 
 if [ $NSU_ENABLE -eq 1 ]; then
     cd out/arch/arm64/boot/
-    wget https://github.com/SukiSU-Ultra/SukiSU_KernelPatch_patch/releases/download/0.12.2/patch_linux
+    wget https://raw.githubusercontent.com/troj00/NexGenSU_patch/refs/heads/main/kpm/patch_linux
     chmod +x patch_linux
     ./patch_linux
     rm Image
