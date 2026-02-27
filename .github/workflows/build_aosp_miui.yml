@@ -90,7 +90,7 @@ jobs:
       run: ccache -s
 
     - name: Загрузка артефактов сборки
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: aosp_miui-${{ github.event.inputs.device }}${{ github.event.inputs.include_nsu == 'true' && '-nsu' || '' }}
         path: |
